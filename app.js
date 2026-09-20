@@ -802,23 +802,20 @@ function renderDownloadPage(movie) {
 
 if (downloadButton) {
 
-    if (movie.downloadUrl) {
+    if (movie.watchUrl) {
 
         downloadButton.href =
-            movie.downloadUrl;
+            movie.watchUrl;
 
         downloadButton.removeAttribute(
-            "target"
+            "download"
         );
 
-        downloadButton.removeAttribute(
-            "rel"
-        );
+        downloadButton.target =
+            "_blank";
 
-        downloadButton.setAttribute(
-            "download",
-            ""
-        );
+        downloadButton.rel =
+            "noopener noreferrer";
 
         downloadButton.style.display =
             "flex";
