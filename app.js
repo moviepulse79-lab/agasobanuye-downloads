@@ -802,33 +802,40 @@ function renderDownloadPage(movie) {
 
 if (downloadButton) {
 
-    if (movie.watchUrl) {
+    if (movie.downloadUrl) {
 
-        downloadButton.href =
-            movie.watchUrl;
+        downloadButton.removeAttribute("href");
+        downloadButton.removeAttribute("target");
+        downloadButton.removeAttribute("rel");
 
-        downloadButton.removeAttribute(
-            "download"
+        downloadButton.setAttribute(
+            "download",
+            ""
         );
 
-        downloadButton.target =
-            "_blank";
+        downloadButton.style.display = "flex";
 
-        downloadButton.rel =
-            "noopener noreferrer";
+        downloadButton.onclick = function (event) {
 
-        downloadButton.style.display =
-            "flex";
+            event.preventDefault();
+
+            const link = document.createElement("a");
+
+            link.href = movie.downloadUrl;
+            link.download = "";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+        };
 
     } else {
 
-        downloadButton.removeAttribute(
-            "href"
-        );
+        downloadButton.removeAttribute("href");
 
-        downloadButton.style.display =
-            "none";
-
+        downloadButton.style.display = "none";
     }
 }
 
