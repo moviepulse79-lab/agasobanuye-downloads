@@ -39,6 +39,7 @@ ESCAPE HTML
 
 function escapeHtml(value) {
 
+
 if (value === null || value === undefined) {
     return "";
 }
@@ -49,6 +50,7 @@ return String(value)
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
 
 }
 
@@ -69,7 +71,6 @@ API REQUEST
 ========================================================= */
 
 async function fetchMovies(page = 1) {
-
 
 const url =
     `${API_URL}?page=${page}&limit=${moviesPerPage}`;
@@ -96,6 +97,7 @@ if (!data || data.success !== true) {
 }
 
 return data;
+
 
 }
 
@@ -272,6 +274,7 @@ UPDATE COUNT
 
 function updateMovieCount(count) {
 
+
 const element =
     getElement("movieCount");
 
@@ -328,7 +331,6 @@ LOAD MOVIES
 ========================================================= */
 
 async function loadMovies(reset = false) {
-
 
 if (isLoading) {
     return;
@@ -527,6 +529,8 @@ updateMovieCount(
 renderMovies(
     currentMovies
 );
+
+
 }
 
 /* =========================================================
@@ -642,7 +646,7 @@ FIND MOVIE BY ID
 
 async function findMovieById(movieId) {
 
-
+```
 let page = 1;
 
 const maxPages = 20;
@@ -669,5 +673,554 @@ while (page <= maxPages) {
 
 
     if (found) {
-        return f
+        return found;
+    }
 
+
+    if (!data.hasNext) {
+        break;
+    }
+
+
+    page++;
+
+}
+
+
+return null;
+
+
+}
+
+/* =========================================================
+RENDER DOWNLOAD PAGE
+========================================================= */
+
+function renderDownloadPage(movie) {
+
+
+const content =
+    getElement("downloadContent");
+
+
+const title =
+    movie.title ||
+    "Untitled Movie";
+
+
+const poster =
+    movie.poster ||
+    posterFallback(title);
+
+
+const summary =
+    movie.summary ||
+    "Agasobanuye movie available for download.";
+
+
+const downloadButton =
+    getElement("downloadButton");
+
+
+const watchButton =
+    getElement("watchMovieButton");
+
+
+const titleElement =
+    getElement("downloadTitle");
+
+
+const posterElement =
+    getElement("downloadPoster");
+
+
+const summaryElement =
+    getElement("downloadSummary");
+
+
+const metaElement =
+    getElement("downloadMeta");
+
+
+if (titleElement) {
+
+    titleElement.textContent =
+        title;
+
+}
+
+
+if (posterElement) {
+
+    posterElement.src =
+        poster;
+
+    posterElement.alt =
+        title;
+
+    posterElement.onerror =
+        function () {
+
+            this.onerror = null;
+
+            this.src =
+                posterFallback(title);
+
+        };
+
+}
+
+
+if (summaryElement) {
+
+    summaryElement.textContent =
+        summary;
+
+}
+
+
+if (metaElement) {
+
+    const meta = [];
+
+
+    if (movie.category) {
+
+        meta.push(
+            `<span>${escapeHtml(movie.category)}</span>`
+        );
+
+    }
+
+
+    if (movie.duration) {
+
+        meta.push(
+            `<span>${escapeHtml(movie.duration)}</span>`
+        );
+
+    }
+
+
+    meta.push(
+        `<span>Agasobanuye</span>`
+    );
+
+
+    metaElement.innerHTML =
+        meta.join("");
+
+}
+
+
+if (downloadButton) {
+
+    downloadButton.href =
+        movie.downloadUrl;
+
+    downloadButton.setAttribute(
+        "download",
+        ""
+    );
+
+}
+
+
+if (watchButton) {
+
+    const watchUrl =
+        movie.playerUrl ||
+        movie.watchUrl ||
+        "";
+
+
+    if (watchUrl) {
+
+        watchButton.href =
+            watchUrl;
+
+        watchButton.style.display =
+            "flex";
+
+    } else {
+
+        watchButton.style.display =
+            "none";
+
+    }
+
+}
+
+
+document.title =
+    `${title} Download | Agasobanuye Downloads`;
+
+
+if (content) {
+    content.hidden = false;
+}
+
+
+}
+
+/* =========================================================
+DOWNLOAD ERROR
+========================================================= */
+
+function showDownloadError(message) {
+
+```
+const loading =
+    getElement("downloadLoading");
+
+const error =
+    getElement("downloadError");
+
+const content =
+    getElement("downloadContent");
+
+
+if (loading) {
+    loading.hidden = true;
+    loading.style.display = "none";
+}
+
+
+if (content) {
+    content.hidden = true;
+}
+
+
+if (error) {
+
+    error.hidden = false;
+
+
+    const messageElement =
+        getElement("downloadErrorMessage");
+
+
+    if (messageElement) {
+
+        messageElement.textContent =
+            message;
+
+    }
+
+}
+
+
+}
+
+/* =========================================================
+RELATED MOVIES
+========================================================= */
+
+async function loadRelatedMovies(currentId) {
+
+const grid =
+    getElement("relatedGrid");
+
+
+if (!grid) {
+    return;
+}
+
+
+try {
+
+    let movies =
+        [...allMovies];
+
+
+    if (movies.length < 6) {
+
+        const data =
+            await fetchMovies(1);
+
+
+        if (Array.isArray(data.movies)) {
+
+            movies = [
+                ...movies,
+                ...data.movies
+            ];
+
+        }
+
+    }
+
+
+    const uniqueMovies =
+        movies.filter(
+            (movie, index, array) => {
+
+                return (
+                    movie.id !== currentId &&
+                    array.findIndex(
+                        item =>
+                            item.id === movie.id
+                    ) === index
+                );
+
+            }
+        );
+
+
+    const related =
+        uniqueMovies.slice(0, 5);
+
+
+    grid.innerHTML =
+        related
+            .map(createMovieCard)
+            .join("");
+
+
+} catch (error) {
+
+    console.error(
+        "Related movies error:",
+        error
+    );
+
+}
+
+
+}
+
+/* =========================================================
+MOBILE MENU
+========================================================= */
+
+function setupMobileMenu() {
+
+const button =
+    getElement("menuButton");
+
+
+const menu =
+    getElement("mobileMenu");
+
+
+if (!button || !menu) {
+    return;
+}
+
+
+button.addEventListener(
+    "click",
+    () => {
+
+        menu.classList.toggle(
+            "open"
+        );
+
+
+        const icon =
+            button.querySelector("i");
+
+
+        if (!icon) {
+            return;
+        }
+
+
+        if (
+            menu.classList.contains("open")
+        ) {
+
+            icon.className =
+                "fa-solid fa-xmark";
+
+        } else {
+
+            icon.className =
+                "fa-solid fa-bars";
+
+        }
+
+    }
+);
+
+
+}
+
+/* =========================================================
+SEARCH SETUP
+========================================================= */
+
+function setupSearch() {
+
+
+const input =
+    getElement("movieSearch");
+
+
+const clearButton =
+    getElement("clearSearch");
+
+
+if (input) {
+
+    input.addEventListener(
+        "input",
+        event => {
+
+            searchMovies(
+                event.target.value
+            );
+
+        }
+    );
+
+}
+
+
+if (clearButton) {
+
+    clearButton.addEventListener(
+        "click",
+        () => {
+
+            if (input) {
+                input.value = "";
+            }
+
+
+            searchMovies("");
+
+
+            if (input) {
+                input.focus();
+            }
+
+        }
+    );
+
+}
+
+
+}
+
+/* =========================================================
+LOAD MORE SETUP
+========================================================= */
+
+function setupLoadMore() {
+
+
+const button =
+    getElement("loadMoreButton");
+
+
+if (!button) {
+    return;
+}
+
+
+button.addEventListener(
+    "click",
+    async () => {
+
+        button.disabled = true;
+
+
+        const original =
+            button.innerHTML;
+
+
+        button.innerHTML =
+            `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Loading...
+            `;
+
+
+        try {
+
+            await loadMovies(false);
+
+        } finally {
+
+            button.disabled = false;
+
+            button.innerHTML =
+                original;
+
+        }
+
+    }
+);
+
+
+}
+
+/* =========================================================
+YEAR
+========================================================= */
+
+function setYear() {
+
+
+const year =
+    getElement("year");
+
+
+if (year) {
+
+    year.textContent =
+        new Date().getFullYear();
+
+}
+
+
+}
+
+/* =========================================================
+DETECT PAGE
+========================================================= */
+
+function isDownloadPage() {
+
+```
+return (
+    window.location.pathname
+        .toLowerCase()
+        .endsWith("download.html")
+);
+
+
+}
+
+/* =========================================================
+INITIALIZE
+========================================================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+() => {
+
+    setupMobileMenu();
+
+    setYear();
+
+
+    if (isDownloadPage()) {
+
+        loadDownloadPage();
+
+    } else {
+
+        setupSearch();
+
+        setupLoadMore();
+
+        loadMovies(true);
+
+    }
+
+}
+
+
+);
