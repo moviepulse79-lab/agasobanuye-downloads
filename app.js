@@ -646,7 +646,7 @@ FIND MOVIE BY ID
 
 async function findMovieById(movieId) {
 
-```
+
 let page = 1;
 
 const maxPages = 20;
@@ -869,7 +869,7 @@ DOWNLOAD ERROR
 
 function showDownloadError(message) {
 
-```
+
 const loading =
     getElement("downloadLoading");
 
@@ -1183,7 +1183,7 @@ DETECT PAGE
 
 function isDownloadPage() {
 
-```
+
 return (
     window.location.pathname
         .toLowerCase()
