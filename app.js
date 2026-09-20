@@ -39,7 +39,6 @@ ESCAPE HTML
 
 function escapeHtml(value) {
 
-```
 if (value === null || value === undefined) {
     return "";
 }
@@ -50,7 +49,6 @@ return String(value)
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-```
 
 }
 
@@ -60,10 +58,9 @@ ESCAPE ATTRIBUTE
 
 function escapeAttribute(value) {
 
-```
 return escapeHtml(value)
     .replace(/`/g, "&#096;");
-```
+
 
 }
 
@@ -73,7 +70,7 @@ API REQUEST
 
 async function fetchMovies(page = 1) {
 
-```
+
 const url =
     `${API_URL}?page=${page}&limit=${moviesPerPage}`;
 
@@ -99,7 +96,6 @@ if (!data || data.success !== true) {
 }
 
 return data;
-```
 
 }
 
@@ -109,14 +105,14 @@ IMAGE FALLBACK
 
 function posterFallback(title = "Movie") {
 
-```
+
 const text =
     encodeURIComponent(
         title.substring(0, 25)
     );
 
 return `https://placehold.co/640x360/111111/ffffff?text=${text}`;
-```
+
 
 }
 
@@ -126,7 +122,6 @@ MOVIE CARD
 
 function createMovieCard(movie) {
 
-```
 const id =
     movie.id || "";
 
@@ -229,7 +224,7 @@ return `
     </article>
 
 `;
-```
+
 
 }
 
@@ -239,7 +234,7 @@ RENDER MOVIES
 
 function renderMovies(movies) {
 
-```
+
 const grid =
     getElement("movieGrid");
 
@@ -267,7 +262,7 @@ if (emptyBox) {
 
 grid.innerHTML =
     movies.map(createMovieCard).join("");
-```
+
 
 }
 
@@ -277,7 +272,6 @@ UPDATE COUNT
 
 function updateMovieCount(count) {
 
-```
 const element =
     getElement("movieCount");
 
@@ -287,7 +281,7 @@ if (!element) {
 
 element.textContent =
     Number(count || 0).toLocaleString();
-```
+
 
 }
 
@@ -297,7 +291,7 @@ LOADING HELPERS
 
 function showMainLoading() {
 
-```
+
 const loading =
     getElement("loading");
 
@@ -308,13 +302,13 @@ if (!loading) {
 loading.hidden = false;
 
 loading.style.display = "flex";
-```
+
 
 }
 
 function hideMainLoading() {
 
-```
+
 const loading =
     getElement("loading");
 
@@ -325,7 +319,7 @@ if (!loading) {
 loading.hidden = true;
 
 loading.style.display = "none";
-```
+
 
 }
 
@@ -335,7 +329,7 @@ LOAD MOVIES
 
 async function loadMovies(reset = false) {
 
-```
+
 if (isLoading) {
     return;
 }
@@ -469,7 +463,7 @@ try {
     hideMainLoading();
 
 }
-```
+
 
 }
 
@@ -479,7 +473,7 @@ SEARCH
 
 function searchMovies(query) {
 
-```
+
 const value =
     String(query || "")
         .trim()
@@ -533,8 +527,6 @@ updateMovieCount(
 renderMovies(
     currentMovies
 );
-```
-
 }
 
 /* =========================================================
@@ -543,7 +535,7 @@ DOWNLOAD PAGE
 
 async function loadDownloadPage() {
 
-```
+
 const params =
     new URLSearchParams(
         window.location.search
@@ -640,7 +632,7 @@ try {
     }
 
 }
-```
+
 
 }
 
@@ -650,7 +642,7 @@ FIND MOVIE BY ID
 
 async function findMovieById(movieId) {
 
-```
+
 let page = 1;
 
 const maxPages = 20;
@@ -678,4 +670,4 @@ while (page <= maxPages) {
 
     if (found) {
         return f
-```
+
