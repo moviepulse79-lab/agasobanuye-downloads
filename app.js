@@ -820,6 +820,27 @@ async function findMovieById(movieId) {
             Array.isArray(data.movies)
                 ? data.movies
                 : [];
+        heroMovies = movies.filter(
+    movie => movie.poster
+);
+
+heroIndex = 0;
+
+updateHeroBackground();
+
+if (heroMovies.length > 1) {
+    setInterval(() => {
+
+        heroIndex++;
+
+        if (heroIndex >= heroMovies.length) {
+            heroIndex = 0;
+        }
+
+        updateHeroBackground();
+
+    }, 10000);
+}
 
 
         const found =
@@ -847,6 +868,30 @@ async function findMovieById(movieId) {
 
     return null;
 
+}
+let heroMovies = [];
+let heroIndex = 0;
+
+function updateHeroBackground() {
+
+    if (!heroMovies.length) {
+        return;
+    }
+
+    const movie = heroMovies[heroIndex];
+
+    if (!movie || !movie.poster) {
+        return;
+    }
+
+    const hero = document.querySelector(".hero");
+
+    if (!hero) {
+        return;
+    }
+
+    hero.style.backgroundImage =
+        `url("${movie.poster}")`;
 }
 
 
