@@ -150,22 +150,19 @@ input {
 /* =========================================
    HOMEPAGE HERO
 ========================================= */
-.hero{
-    position:relative;
-    min-height:500px;
+.hero {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
 
-    display:flex;
-    align-items:center;
+    background-color: #080808;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
-    background-color:#080808;
-    background-image:var(--hero-image);
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    overflow:hidden;
+    overflow: hidden;
 }
-
 .hero-background {
     position: absolute;
     inset: 0;
