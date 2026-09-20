@@ -696,162 +696,171 @@ RENDER DOWNLOAD PAGE
 
 function renderDownloadPage(movie) {
 
+    const content =
+        getElement("downloadContent");
 
-const content =
-    getElement("downloadContent");
+    const title =
+        movie.title ||
+        "Untitled Movie";
 
+    const poster =
+        movie.poster ||
+        posterFallback(title);
 
-const title =
-    movie.title ||
-    "Untitled Movie";
+    const summary =
+        movie.summary ||
+        "Agasobanuye movie available for download.";
 
+    const downloadButton =
+        getElement("downloadButton");
 
-const poster =
-    movie.poster ||
-    posterFallback(title);
+    const watchButton =
+        getElement("watchMovieButton");
 
+    const titleElement =
+        getElement("downloadTitle");
 
-const summary =
-    movie.summary ||
-    "Agasobanuye movie available for download.";
+    const posterElement =
+        getElement("downloadPoster");
 
+    const summaryElement =
+        getElement("downloadSummary");
 
-const downloadButton =
-    getElement("downloadButton");
-
-
-const watchButton =
-    getElement("watchMovieButton");
-
-
-const titleElement =
-    getElement("downloadTitle");
-
-
-const posterElement =
-    getElement("downloadPoster");
+    const metaElement =
+        getElement("downloadMeta");
 
 
-const summaryElement =
-    getElement("downloadSummary");
+    if (titleElement) {
 
-
-const metaElement =
-    getElement("downloadMeta");
-
-
-if (titleElement) {
-
-    titleElement.textContent =
-        title;
-
-}
-
-
-if (posterElement) {
-
-    posterElement.src =
-        poster;
-
-    posterElement.alt =
-        title;
-
-    posterElement.onerror =
-        function () {
-
-            this.onerror = null;
-
-            this.src =
-                posterFallback(title);
-
-        };
-
-}
-
-
-if (summaryElement) {
-
-    summaryElement.textContent =
-        summary;
-
-}
-
-
-if (metaElement) {
-
-    const meta = [];
-
-
-    if (movie.category) {
-
-        meta.push(
-            `<span>${escapeHtml(movie.category)}</span>`
-        );
+        titleElement.textContent =
+            title;
 
     }
 
 
-    if (movie.duration) {
+    if (posterElement) {
 
-        meta.push(
-            `<span>${escapeHtml(movie.duration)}</span>`
-        );
+        posterElement.src =
+            poster;
+
+        posterElement.alt =
+            title;
+
+        posterElement.onerror =
+            function () {
+
+                this.onerror = null;
+
+                this.src =
+                    posterFallback(title);
+
+            };
 
     }
 
 
-    meta.push(
-        `<span>Agasobanuye</span>`
-    );
+    if (summaryElement) {
+
+        summaryElement.textContent =
+            summary;
+
+    }
 
 
-    metaElement.innerHTML =
-        meta.join("");
+    if (metaElement) {
+
+        const meta = [];
+
+
+        if (movie.category) {
+
+            meta.push(
+                `<span>${escapeHtml(movie.category)}</span>`
+            );
+
+        }
+
+
+        if (movie.duration) {
+
+            meta.push(
+                `<span>${escapeHtml(movie.duration)}</span>`
+            );
+
+        }
+
+
+        meta.push(
+            `<span>Agasobanuye</span>`
+        );
+
+
+        metaElement.innerHTML =
+            meta.join("");
+
+    }
+
+
+    if (downloadButton) {
+
+        if (movie.downloadUrl) {
+
+            downloadButton.href =
+                movie.downloadUrl;
+
+            downloadButton.target =
+                "_blank";
+
+            downloadButton.rel =
+                "noopener noreferrer";
+
+            downloadButton.removeAttribute(
+                "download"
+            );
+
+            downloadButton.style.display =
+                "flex";
+
+        } else {
+
+            downloadButton.removeAttribute(
+                "href"
+            );
+
+            downloadButton.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    if (watchButton) {
+
+        watchButton.href =
+            "https://moviepulse247.netlify.app/source-movies.html";
+
+        watchButton.target =
+            "_blank";
+
+        watchButton.rel =
+            "noopener noreferrer";
+
+        watchButton.style.display =
+            "flex";
+
+    }
+
+
+    document.title =
+        `${title} Download | Agasobanuye Downloads`;
+
+
+    if (content) {
+        content.hidden = false;
+    }
 
 }
-
-
-if (downloadButton) {
-
-    downloadButton.href =
-        movie.downloadUrl;
-
-    downloadButton.setAttribute(
-        "download",
-        ""
-    );
-
-}
-
-
-if (watchButton) {
-
-    watchButton.href =
-        "https://moviepulse247.netlify.app/source-movies.html";
-
-    watchButton.target =
-        "_blank";
-
-    watchButton.rel =
-        "noopener noreferrer";
-
-    watchButton.style.display =
-        "flex";
-
-}
-
-
-document.title =
-    `${title} Download | Agasobanuye Downloads`;
-
-
-if (content) {
-    content.hidden = false;
-}
-
-
-}
-
 /* =========================================================
 DOWNLOAD ERROR
 ========================================================= */
