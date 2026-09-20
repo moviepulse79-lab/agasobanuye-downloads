@@ -806,7 +806,9 @@ if (downloadButton) {
         downloadButton.href =
             movie.watchUrl;
 
-        downloadButton.removeAttribute("download");
+        downloadButton.removeAttribute(
+            "download"
+        );
 
         downloadButton.target =
             "_blank";
@@ -814,18 +816,22 @@ if (downloadButton) {
         downloadButton.rel =
             "noopener noreferrer";
 
+        downloadButton.textContent =
+            "Download on Agasobanuye";
+
         downloadButton.style.display =
             "flex";
 
     } else {
 
-        downloadButton.removeAttribute("href");
+        downloadButton.removeAttribute(
+            "href"
+        );
 
         downloadButton.style.display =
             "none";
     }
 }
-
 
     if (watchButton) {
 
