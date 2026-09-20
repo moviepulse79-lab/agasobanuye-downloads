@@ -13,7 +13,6 @@ html {
 
 body {
     font-family: "Poppins", sans-serif;
-    background: #080808;
     color: #ffffff;
     min-height: 100vh;
 
@@ -148,32 +147,37 @@ input {
     color: #fff;
 }
 
-
-/* ============================= */
-/* HERO */
-/* ============================= */
+/* =========================================
+   HOMEPAGE HERO
+========================================= */
 
 .hero {
-    min-height: 430px;
     position: relative;
+    width: 100%;
+    min-height: 560px;
 
     display: flex;
     align-items: center;
 
-    background:
-        radial-gradient(
-            circle at 75% 40%,
-            rgba(229, 9, 20, 0.18),
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
-            #090909 0%,
-            #130506 50%,
-            #090909 100%
-        );
+    overflow: hidden;
+    isolation: isolate;
+
+    background: #090909;
 }
 
+.hero-background {
+    position: absolute;
+    inset: 0;
+
+    background-image: url("https://moviepulse247.netlify.app/ChatGPT%20Image%20Jul%207,%202026,%2009_00_03%20AM.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    transform: scale(1.03);
+
+    z-index: -2;
+}
 
 .hero-overlay {
     position: absolute;
@@ -182,88 +186,139 @@ input {
     background:
         linear-gradient(
             90deg,
-            #080808 0%,
-            rgba(8, 8, 8, 0.75) 50%,
-            rgba(8, 8, 8, 0.2) 100%
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.78) 35%,
+            rgba(0, 0, 0, 0.40) 70%,
+            rgba(0, 0, 0, 0.70) 100%
+        ),
+        linear-gradient(
+            0deg,
+            #090909 0%,
+            transparent 35%
         );
+
+    z-index: -1;
 }
 
-
 .hero-content {
-    width: min(1200px, calc(100% - 32px));
-    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 100px 30px;
+
     position: relative;
     z-index: 2;
 }
 
-
 .hero-badge {
     display: inline-block;
 
-    padding: 7px 13px;
+    margin-bottom: 18px;
 
-    background: rgba(229, 9, 20, 0.12);
-    border: 1px solid rgba(229, 9, 20, 0.35);
+    color: #ff1f1f;
 
-    color: #ff4650;
-
-    border-radius: 50px;
-
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 1px;
-}
 
+    letter-spacing: 1.5px;
+}
 
 .hero h1 {
     max-width: 700px;
 
-    margin-top: 18px;
+    margin: 0 0 20px;
 
-    font-size: clamp(34px, 6vw, 64px);
-    line-height: 1.08;
+    color: #fff;
 
-    letter-spacing: -2px;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.05;
+    font-weight: 800;
+
+    text-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.8);
 }
-
 
 .hero p {
-    max-width: 650px;
+    max-width: 600px;
 
-    margin-top: 18px;
+    margin: 0 0 30px;
 
-    color: #b9b9b9;
+    color: #ddd;
 
     font-size: 16px;
-    line-height: 1.8;
+    line-height: 1.7;
 }
-
 
 .hero-button {
     display: inline-flex;
+
     align-items: center;
-    gap: 10px;
+    justify-content: center;
 
-    margin-top: 28px;
+    gap: 9px;
 
-    padding: 13px 20px;
+    padding: 13px 22px;
 
+    color: #fff;
     background: #e50914;
-    color: #ffffff;
 
-    border-radius: 8px;
+    border-radius: 6px;
 
-    font-size: 14px;
-    font-weight: 700;
+    text-decoration: none;
 
-    transition: 0.2s;
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
 }
-
 
 .hero-button:hover {
-    background: #ff1722;
-    transform: translateY(-1px);
+    background: #ff1f1f;
+    transform: translateY(-2px);
 }
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .hero {
+        min-height: 600px;
+
+        align-items: flex-end;
+    }
+
+    .hero-background {
+        background-position: center;
+    }
+
+    .hero-overlay {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.35) 0%,
+                rgba(0, 0, 0, 0.65) 45%,
+                rgba(0, 0, 0, 0.96) 100%
+            );
+    }
+
+    .hero-content {
+        padding: 80px 20px 55px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+}
+
 
 
 /* ============================= */
