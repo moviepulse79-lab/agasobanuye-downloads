@@ -800,39 +800,47 @@ function renderDownloadPage(movie) {
 
     }
 
+if (downloadButton) {
 
-    if (downloadButton) {
+    if (movie.downloadUrl) {
 
-        if (movie.downloadUrl) {
-
-            downloadButton.href =
-                movie.downloadUrl;
-
-            downloadButton.target =
-                "_blank";
-
-            downloadButton.rel =
-                "noopener noreferrer";
-
-            downloadButton.removeAttribute(
-                "download"
+        const proxyUrl =
+            "https://moviepulse247.netlify.app/.netlify/functions/agasobanuye-movies" +
+            "?action=download&url=" +
+            encodeURIComponent(
+                movie.downloadUrl
             );
 
-            downloadButton.style.display =
-                "flex";
+        downloadButton.href =
+            proxyUrl;
 
-        } else {
+        downloadButton.removeAttribute(
+            "target"
+        );
 
-            downloadButton.removeAttribute(
-                "href"
-            );
+        downloadButton.removeAttribute(
+            "rel"
+        );
 
-            downloadButton.style.display =
-                "none";
+        downloadButton.setAttribute(
+            "download",
+            ""
+        );
 
-        }
+        downloadButton.style.display =
+            "flex";
+
+    } else {
+
+        downloadButton.removeAttribute(
+            "href"
+        );
+
+        downloadButton.style.display =
+            "none";
 
     }
+}
 
 
     if (watchButton) {
