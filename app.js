@@ -826,26 +826,17 @@ if (downloadButton) {
 
 if (watchButton) {
 
-    const watchUrl =
-        movie.playerUrl ||
-        movie.watchUrl ||
-        "";
+    watchButton.href =
+        "https://moviepulse247.netlify.app/source-movies.html";
 
+    watchButton.target =
+        "_blank";
 
-    if (watchUrl) {
+    watchButton.rel =
+        "noopener noreferrer";
 
-        watchButton.href =
-            watchUrl;
-
-        watchButton.style.display =
-            "flex";
-
-    } else {
-
-        watchButton.style.display =
-            "none";
-
-    }
+    watchButton.style.display =
+        "flex";
 
 }
 
