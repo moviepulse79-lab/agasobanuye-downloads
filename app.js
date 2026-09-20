@@ -3,6 +3,7 @@ AGASOBANUYE DOWNLOAD WEBSITE
 AGASOBANUYE + NCDTV
 ========================================================= */
 
+
 /* =========================================================
 API
 ========================================================= */
@@ -26,6 +27,17 @@ let hasNextPage = true;
 let isLoading = false;
 
 const moviesPerPage = 20;
+
+
+/* =========================================================
+HERO STATE
+========================================================= */
+
+let heroMovies = [];
+
+let heroIndex = 0;
+
+let heroSliderStarted = false;
 
 
 /* =========================================================
@@ -161,6 +173,89 @@ function combineMovies(agasobanuyeMovies = []) {
 
 
 /* =========================================================
+HERO BACKGROUND
+========================================================= */
+
+function updateHeroBackground() {
+
+    if (!heroMovies.length) {
+        return;
+    }
+
+
+    const movie =
+        heroMovies[heroIndex];
+
+
+    if (
+        !movie ||
+        !movie.poster
+    ) {
+        return;
+    }
+
+
+    const hero =
+        document.querySelector(".hero");
+
+
+    if (!hero) {
+        return;
+    }
+
+
+    hero.style.backgroundImage =
+        `url("${movie.poster}")`;
+
+}
+
+
+/* =========================================================
+START HERO SLIDER
+========================================================= */
+
+function startHeroSlider() {
+
+    if (heroSliderStarted) {
+        return;
+    }
+
+
+    if (heroMovies.length <= 1) {
+        return;
+    }
+
+
+    heroSliderStarted = true;
+
+
+    setInterval(() => {
+
+        if (heroMovies.length <= 1) {
+            return;
+        }
+
+
+        heroIndex++;
+
+
+        if (
+            heroIndex >= heroMovies.length
+        ) {
+
+            heroIndex = 0;
+
+        }
+
+
+        updateHeroBackground();
+
+    }, 10000);
+
+}
+
+
+/* =========================================================
 MOVIE CARD
 ========================================================= */
 
@@ -169,13 +264,16 @@ function createMovieCard(movie) {
     const id =
         movie.id || "";
 
+
     const title =
         movie.title ||
         "Untitled Movie";
 
+
     const poster =
         movie.poster ||
         posterFallback(title);
+
 
     const summary =
         movie.summary ||
@@ -328,6 +426,7 @@ function renderMovies(movies) {
     const grid =
         getElement("movieGrid");
 
+
     const emptyBox =
         getElement("emptyBox");
 
@@ -450,6 +549,10 @@ async function loadMovies(reset = false) {
 
         currentMovies = [];
 
+        heroMovies = [];
+
+        heroIndex = 0;
+
 
         const grid =
             getElement("movieGrid");
@@ -504,6 +607,35 @@ async function loadMovies(reset = false) {
                 ? data.movies
                 : [];
 
+
+        /* =================================================
+        HERO
+        ================================================= */
+
+        if (currentPage === 1) {
+
+            heroMovies =
+                apiMovies.filter(
+                    movie =>
+                        movie &&
+                        movie.poster
+                );
+
+
+            heroIndex = 0;
+
+
+            updateHeroBackground();
+
+
+            startHeroSlider();
+
+        }
+
+
+        /* =================================================
+        ADD MOVIES
+        ================================================= */
 
         if (reset) {
 
@@ -820,27 +952,6 @@ async function findMovieById(movieId) {
             Array.isArray(data.movies)
                 ? data.movies
                 : [];
-        heroMovies = movies.filter(
-    movie => movie.poster
-);
-
-heroIndex = 0;
-
-updateHeroBackground();
-
-if (heroMovies.length > 1) {
-    setInterval(() => {
-
-        heroIndex++;
-
-        if (heroIndex >= heroMovies.length) {
-            heroIndex = 0;
-        }
-
-        updateHeroBackground();
-
-    }, 10000);
-}
 
 
         const found =
@@ -868,30 +979,6 @@ if (heroMovies.length > 1) {
 
     return null;
 
-}
-let heroMovies = [];
-let heroIndex = 0;
-
-function updateHeroBackground() {
-
-    if (!heroMovies.length) {
-        return;
-    }
-
-    const movie = heroMovies[heroIndex];
-
-    if (!movie || !movie.poster) {
-        return;
-    }
-
-    const hero = document.querySelector(".hero");
-
-    if (!hero) {
-        return;
-    }
-
-    hero.style.backgroundImage =
-        `url("${movie.poster}")`;
 }
 
 
@@ -1043,45 +1130,52 @@ function renderDownloadPage(movie) {
     /* =====================================================
     DOWNLOAD BUTTON
     ===================================================== */
-if (downloadButton) {
 
-    if (movie.downloadUrl) {
+    if (downloadButton) {
 
-        const downloadProxyUrl =
-            "https://moviepulse247.netlify.app/.netlify/functions/agasobanuye-download?url=" +
-            encodeURIComponent(movie.downloadUrl);
+        if (movie.downloadUrl) {
 
-        downloadButton.href =
-            downloadProxyUrl;
+            downloadButton.href =
+                movie.downloadUrl;
 
-        downloadButton.target =
-            "_blank";
 
-        downloadButton.rel =
-            "noopener noreferrer";
+            downloadButton.target =
+                "_blank";
 
-        downloadButton.removeAttribute(
-            "download"
-        );
 
-        downloadButton.innerHTML = `
-            <i class="fa-solid fa-download"></i>
-            <span>Download Movie</span>
-        `;
+            downloadButton.rel =
+                "noopener noreferrer";
 
-        downloadButton.style.display =
-            "flex";
 
-    } else {
+            downloadButton.removeAttribute(
+                "download"
+            );
 
-        downloadButton.removeAttribute(
-            "href"
-        );
 
-        downloadButton.style.display =
-            "none";
+            downloadButton.innerHTML = `
+                <i class="fa-solid fa-download"></i>
+                <span>Download Movie</span>
+            `;
+
+
+            downloadButton.style.display =
+                "flex";
+
+        } else {
+
+            downloadButton.removeAttribute(
+                "href"
+            );
+
+
+            downloadButton.style.display =
+                "none";
+
+        }
+
     }
-}
+
+
     /* =====================================================
     WATCH / SOURCE BUTTON
     ===================================================== */
