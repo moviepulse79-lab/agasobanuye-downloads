@@ -804,15 +804,8 @@ if (downloadButton) {
 
     if (movie.downloadUrl) {
 
-        const proxyUrl =
-            "https://moviepulse247.netlify.app/.netlify/functions/agasobanuye-movies" +
-            "?action=download&url=" +
-            encodeURIComponent(
-                movie.downloadUrl
-            );
-
         downloadButton.href =
-            proxyUrl;
+            movie.downloadUrl;
 
         downloadButton.removeAttribute(
             "target"
