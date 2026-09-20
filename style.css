@@ -16,6 +16,18 @@ body {
     background: #080808;
     color: #ffffff;
     min-height: 100vh;
+
+      background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.75),
+            rgba(0, 0, 0, 0.88)
+        ),
+        url("https://media.themoviedb.org/t/p/w500_and_h282_face/gaew60NXUxok3Vmls7gkAT7lYW0.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 
