@@ -799,43 +799,30 @@ function renderDownloadPage(movie) {
             meta.join("");
 
     }
-
 if (downloadButton) {
 
-    if (movie.downloadUrl) {
+    if (movie.watchUrl) {
 
-        downloadButton.removeAttribute("href");
-        downloadButton.removeAttribute("target");
-        downloadButton.removeAttribute("rel");
+        downloadButton.href =
+            movie.watchUrl;
 
-        downloadButton.setAttribute(
-            "download",
-            ""
-        );
+        downloadButton.removeAttribute("download");
 
-        downloadButton.style.display = "flex";
+        downloadButton.target =
+            "_blank";
 
-        downloadButton.onclick = function (event) {
+        downloadButton.rel =
+            "noopener noreferrer";
 
-            event.preventDefault();
-
-            const link = document.createElement("a");
-
-            link.href = movie.downloadUrl;
-            link.download = "";
-
-            document.body.appendChild(link);
-
-            link.click();
-
-            link.remove();
-        };
+        downloadButton.style.display =
+            "flex";
 
     } else {
 
         downloadButton.removeAttribute("href");
 
-        downloadButton.style.display = "none";
+        downloadButton.style.display =
+            "none";
     }
 }
 
