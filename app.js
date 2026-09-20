@@ -998,32 +998,45 @@ function renderDownloadPage(movie) {
     /* =====================================================
     DOWNLOAD BUTTON
     ===================================================== */
+if (downloadButton) {
 
-  if (downloadButton) {
     if (movie.downloadUrl) {
 
-        downloadButton.href = movie.downloadUrl;
-        downloadButton.target = "_blank";
-        downloadButton.rel = "noopener noreferrer";
+        const downloadProxyUrl =
+            "https://moviepulse247.netlify.app/.netlify/functions/agasobanuye-download?url=" +
+            encodeURIComponent(movie.downloadUrl);
 
-        // Do NOT use the HTML download attribute
-        downloadButton.removeAttribute("download");
+        downloadButton.href =
+            downloadProxyUrl;
+
+        downloadButton.target =
+            "_blank";
+
+        downloadButton.rel =
+            "noopener noreferrer";
+
+        downloadButton.removeAttribute(
+            "download"
+        );
 
         downloadButton.innerHTML = `
             <i class="fa-solid fa-download"></i>
             <span>Download Movie</span>
         `;
 
-        downloadButton.style.display = "flex";
+        downloadButton.style.display =
+            "flex";
 
     } else {
 
-        downloadButton.removeAttribute("href");
-        downloadButton.style.display = "none";
+        downloadButton.removeAttribute(
+            "href"
+        );
 
+        downloadButton.style.display =
+            "none";
     }
 }
-
     /* =====================================================
     WATCH / SOURCE BUTTON
     ===================================================== */
