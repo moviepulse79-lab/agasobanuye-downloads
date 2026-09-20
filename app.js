@@ -139,11 +139,9 @@ const summary =
 
 const movieUrl =
     `download.html?movie=${encodeURIComponent(id)}`;
-
 const watchUrl =
-    movie.playerUrl ||
-    movie.watchUrl ||
-    "";
+    `https://moviepulse247.netlify.app/source-movies.html?movie=${encodeURIComponent(id)}`;
+
 
 return `
 
